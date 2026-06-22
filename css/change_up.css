@@ -1,0 +1,134 @@
+@charset "utf-8";
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.blind {
+    overflow: hidden;
+    position: absolute;
+    clip: rect(0 0 0 0);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.wrap, .container {
+    height: 100vh;
+}
+
+.content {
+    position: relative;
+    background: url(../img/bg_main.png) no-repeat 50% 50%;
+    height: 100%;
+    padding-top: 135px;
+    background-size: cover;
+
+    .inner {
+        width: 100vw;
+        height: 590px;
+        background: url(../img/img_main.png) no-repeat 50% 0;
+        background-size: 100vw auto;
+
+        .video {
+            width: 20px;
+            height: 20px;
+            margin: 0 auto;
+
+            video {
+                max-width: 100%;
+                opacity: 0.1;
+            }
+        }
+    }
+
+    .logo {
+        display: block;
+        position: absolute;
+        top: 50px;
+        left: 50%;
+        width: 210px;
+        height: 236px;
+        background: url(../img/img_logo.png) no-repeat 0 0;
+        background-size: 210px 236px;
+        transform: translateX(-50%);
+    }
+
+    .text {
+        position: relative;
+        width: fit-content;
+        margin: 0 auto;
+        font-weight: 700;
+        background: rgb(0,163,98, 1);
+        background: linear-gradient(90deg, rgba(0,163,98,1) 0%, rgba(59,71,173,1) 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        text-align: center;
+        line-height: 1.2;
+        animation: textDown .5s forwards;
+        
+    }
+}
+
+@keyframes textDown {
+    0% {
+        top: -50%;
+        font-size: 10px;
+    }
+
+    100% {
+        top: -30%;
+        font-size: 80px;
+    }
+}
