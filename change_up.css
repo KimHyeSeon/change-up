@@ -65,11 +65,30 @@ body {
 
 .wrap, .container {
     height: 100vh;
+    min-height: 900px;
+    
+    @media all and (min-width: 1025px) {
+        min-height: 900px;
+
+        .content {
+            .inner {
+                position: absolute;
+                right: 0;
+                max-width: 1544px;
+
+            }
+            .text {
+                position: fixed;
+                bottom: 100px;
+                animation-name: textDown_small;
+            }
+        }
+    }
 }
 
 .content {
     position: relative;
-    background: url(../img/bg_main.png) no-repeat 50% 50%;
+    background: url(img/bg_main.png) no-repeat 50% 50%;
     height: 100%;
     padding-top: 135px;
     background-size: cover;
@@ -77,7 +96,7 @@ body {
     .inner {
         width: 100vw;
         height: 590px;
-        background: url(../img/img_main.png) no-repeat 100% 0;
+        background: url(img/img_main.png) no-repeat 100% 0;
         background-size: contain;
 
         .video {
@@ -108,7 +127,7 @@ body {
         display: block;
         width: 210px;
         height: 500px;
-        background: url(../img/img_logo.png) no-repeat 0 0;
+        background: url(img/img_logo.png) no-repeat 0 0;
         background-size: contain;
     }
 
@@ -129,14 +148,6 @@ body {
         
         .tablet {
             display: none;
-        }
-    }
-
-    @media all and (min-width: 1400px) and (min-height: 910px) {
-        .text {
-            position: fixed;
-            bottom: 100px;
-            animation-name: textDown_small;
         }
     }
     
@@ -197,7 +208,7 @@ body {
     }
 
     100% {
-        font-size: 50px;
+        font-size: 60px;
     }
 }
 
