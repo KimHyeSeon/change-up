@@ -31,38 +31,35 @@
                 </div>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+        <!-- <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script> -->
+        
+
         <script>
-            $(function() {
-                var $audio = $('#Audio');
+        // 문서 준비가 완료되면 실행 (jQuery의 $(function())과 동일한 역할)
+        window.addEventListener('DOMContentLoaded', function() {
+            // id가 bgMusic인 audio 태그를 직접 찾습니다.
+            var audioCtx = document.getElementById('Audio');
 
-                if ($audio.length > 0) {
-                    var audioCtx = $audio.get(0);
+            if (audioCtx) {
+                var playPromise = audioCtx.play();
 
-                    // 1. 브라우저 정책상 처음에는 무조건 재생이 차단되므로 예외 처리를 걸어둡니다.
-                    var playPromise = audioCtx.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(function() {
+                        console.log("배경음악 자동 재생 성공");
+                    }).catch(function(error) {
+                        console.log("브라우저 정책으로 차단됨 -> 첫 클릭 시 재생 준비");
 
-                    if (playPromise !== undefined) {
-                        playPromise.then(function() {
-                            // 매우 드물게 브라우저 자체 설정으로 자동 재생이 허용된 경우
-                            console.log("브라우저 허용으로 배경음악 즉시 자동 재생");
-                        }).catch(function(error) {
-                            // 대부분의 크롬/사파리 환경에서는 이쪽(차단)으로 들어옵니다.
-                            console.log("브라우저 정책으로 자동 재생 차단됨 -> 사용자 첫 클릭 대기 중...");
-
-                            // 2. 사용자가 화면을 처음 클릭하거나 터치하는 순간 음악을 재생합니다.
-                            // '.one()' 메서드는 이벤트를 딱 한 번만 실행하고 스스로 소멸하므로 성능에 좋습니다.
-                            $('body').one('click touchstart', function() {
-                                audioCtx.play().then(function() {
-                                    console.log("사용자 상호작용 감지: 배경음악 재생 시작");
-                                }).catch(function(err) {
-                                    console.error("재생 실패:", err);
-                                });
-                            });
-                        });
-                    }
+                        // 화면(window)을 딱 한 번(once: true)만 클릭하거나 터치하면 재생
+                        var playOnUserGesture = function() {
+                            audioCtx.play().catch(function(e) { console.log(e); });
+                        };
+                        
+                        window.addEventListener('click', playOnUserGesture, { once: true });
+                        window.addEventListener('touchstart', playOnUserGesture, { once: true });
+                    });
                 }
-            });
+            }
+        });
         </script>
     </body>
 </html>
