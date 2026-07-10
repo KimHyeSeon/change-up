@@ -19,8 +19,8 @@
                             </video>
                         </div> -->
                         <div class="sound">
-                             <audio id="Audio" loop autoplay>
-                                <source src="./sound/bgm_changeup.mp3" type="audio/mpeg">
+                             <audio id="bgMusic" loop>
+                                <source src="./bgm_changeup.mp3" type="audio/mp3">
                             </audio>
                         </div>
                     </div>
@@ -35,25 +35,30 @@
         
 
         <script>
-        // 문서 준비가 완료되면 실행 (jQuery의 $(function())과 동일한 역할)
+       // 1. DOM(HTML 구조)이 완전히 로드되면 실행됩니다.
         window.addEventListener('DOMContentLoaded', function() {
-            // id가 bgMusic인 audio 태그를 직접 찾습니다.
-            var audioCtx = document.getElementById('Audio');
+            var audioCtx = document.getElementById('bgMusic');
 
             if (audioCtx) {
+                // 2. 브라우저에게 배경음악 재생을 요청합니다.
                 var playPromise = audioCtx.play();
 
                 if (playPromise !== undefined) {
                     playPromise.then(function() {
-                        console.log("배경음악 자동 재생 성공");
+                        console.log("깃허브 페이지: 배경음악 즉시 자동 재생 성공");
                     }).catch(function(error) {
-                        console.log("브라우저 정책으로 차단됨 -> 첫 클릭 시 재생 준비");
+                        console.log("크롬/사파리 정책으로 자동 재생 차단 -> 첫 클릭 시 재생 대기");
 
-                        // 화면(window)을 딱 한 번(once: true)만 클릭하거나 터치하면 재생
+                        // 3. 브라우저 차단 시, 사용자가 화면을 터치하거나 클릭하는 순간 음악 시작
                         var playOnUserGesture = function() {
-                            audioCtx.play().catch(function(e) { console.log(e); });
+                            audioCtx.play().then(function() {
+                                console.log("사용자 동작 확인: 배경음악 재생 성공");
+                            }).catch(function(e) { 
+                                console.error("재생 실패:", e); 
+                            });
                         };
                         
+                        // 이벤트가 딱 한 번만 실행되고 사라지도록 { once: true } 설정
                         window.addEventListener('click', playOnUserGesture, { once: true });
                         window.addEventListener('touchstart', playOnUserGesture, { once: true });
                     });
