@@ -19,7 +19,7 @@
                             </video>
                         </div> -->
                         <div class="sound">
-                             <audio id="Audio" autoplay>
+                             <audio id="Audio" loop autoplay>
                                 <source src="./sound/bgm_changeup.mp3" type="audio/mpeg">
                             </audio>
                         </div>
@@ -32,39 +32,37 @@
             </div>
         </div>
         <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
-        <!-- <script>
+        <script>
             $(function() {
-                // 1. jQuery로 비디오 요소를 선택합니다.
-                var $video = $('#changeUpVideo');
+                var $audio = $('#Audio');
 
-                // 2. 페이지에 비디오 태그가 존재하는지 안전하게 체크합니다.
-                if ($video.length > 0) {
-                    // 크롬/사파리 자동 재생 정책을 통과하기 위해 필수 속성을 코드로 강제 주입합니다.
-                    $video.attr({
-                        'muted': 'muted',        // 음소거 (자동 재생 필수 조건)
-                        'playsinline': 'true',    // 모바일 사파리에서 전체화면 전환 방지
-                        'loop': 'true'            // 반복 재생 (필요 시 유지)
-                    });
+                if ($audio.length > 0) {
+                    var audioCtx = $audio.get(0);
 
-                    // jQuery 4.0 환경에서 순수 JavaScript DOM 객체를 안전하게 추출합니다.
-                    var videoElement = $video.get(0);
-                    
-                    // 속성이 반영되도록 비디오를 한 번 로드한 뒤 재생을 시도합니다.
-                    videoElement.load();
-
-                    // 3. 브라우저 비동기 재생 명령 실행
-                    var playPromise = videoElement.play();
+                    // 1. 브라우저 정책상 처음에는 무조건 재생이 차단되므로 예외 처리를 걸어둡니다.
+                    var playPromise = audioCtx.play();
 
                     if (playPromise !== undefined) {
                         playPromise.then(function() {
-                            console.log("웹페이지 접근 시 자동 재생 성공");
+                            // 매우 드물게 브라우저 자체 설정으로 자동 재생이 허용된 경우
+                            console.log("브라우저 허용으로 배경음악 즉시 자동 재생");
                         }).catch(function(error) {
-                            console.log("브라우저 보안 정책으로 인해 자동 재생이 차단되었습니다:", error);
+                            // 대부분의 크롬/사파리 환경에서는 이쪽(차단)으로 들어옵니다.
+                            console.log("브라우저 정책으로 자동 재생 차단됨 -> 사용자 첫 클릭 대기 중...");
+
+                            // 2. 사용자가 화면을 처음 클릭하거나 터치하는 순간 음악을 재생합니다.
+                            // '.one()' 메서드는 이벤트를 딱 한 번만 실행하고 스스로 소멸하므로 성능에 좋습니다.
+                            $('body').one('click touchstart', function() {
+                                audioCtx.play().then(function() {
+                                    console.log("사용자 상호작용 감지: 배경음악 재생 시작");
+                                }).catch(function(err) {
+                                    console.error("재생 실패:", err);
+                                });
+                            });
                         });
                     }
                 }
             });
-        
-        </script> -->
+        </script>
     </body>
 </html>
